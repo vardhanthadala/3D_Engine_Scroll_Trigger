@@ -10,9 +10,10 @@ export default function EngineExperience() {
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
-    gsap.ticker.lagSmoothing(0);
+gsap.ticker.lagSmoothing(0);
 
-    const frameCount = 31;
+ScrollTrigger.normalizeScroll(true);
+    const frameCount = 179;
 
     /* -------------------------------- */
     /* FRAME PATH                       */
@@ -73,8 +74,7 @@ export default function EngineExperience() {
 
       /* Adjust cinematic sizing */
 
-      const finalScale = scale * 0.72;
-
+const finalScale = scale * 0.78;
       const drawWidth = imageWidth * finalScale;
       const drawHeight = imageHeight * finalScale;
 
@@ -83,8 +83,8 @@ export default function EngineExperience() {
       const x = (width - drawWidth) / 2;
       const y = (height - drawHeight) / 2;
 
-      context.clearRect(0, 0, width, height);
-
+context.fillStyle = "#000";
+context.fillRect(0, 0, width, height);
       context.drawImage(
         img,
         x,
@@ -126,35 +126,35 @@ export default function EngineExperience() {
     /* SCROLL ANIMATION                 */
     /* -------------------------------- */
 
-    const ctx = gsap.context(() => {
-      gsap.to(obj, {
-        frame: frameCount - 1,
+   const ctx = gsap.context(() => {
+  gsap.to(obj, {
+    frame: frameCount - 1,
 
+    ease: "none",
 
-        ease: "none",
+    scrollTrigger: {
+      trigger: sectionRef.current,
 
-        scrollTrigger: {
-          trigger: sectionRef.current,
+      start: "top top",
 
-          start: "top top",
+      end: "+=9000",
 
-          end: "+=6000",
+      scrub: 2.5,
 
-          scrub: 1.0,
+      pin: true,
 
-          pin: true,
+      anticipatePin: 1,
 
-          anticipatePin: 1,
+      invalidateOnRefresh: true,
 
-          invalidateOnRefresh: true,
-        },
+      fastScrollEnd: true,
+    },
 
-       onUpdate: () => {
-  render(Math.round(obj.frame));
-},
-      });
-    });
-
+    onUpdate: () => {
+      render(Math.round(obj.frame));
+    },
+  });
+});
     /* -------------------------------- */
     /* RESIZE                           */
     /* -------------------------------- */
